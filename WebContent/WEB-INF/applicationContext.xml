@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+        "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" />
+		<property name="username" value="ecommerce" />
+		<property name="password" value="1234" />
+	</bean>
+	
+<!-- 	=========================Hibernate Integration Starts==================== -->
+	<bean id="hibernateSessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="mappingLocations">
+			<list>
+				<value>classpath*:/com/ecommerce/hbm/Users.hbm.xml</value>
+				<value>classpath*:/com/ecommerce/hbm/Countries.hbm.xml</value>
+				<value>classpath*:/com/ecommerce/hbm/Categories.hbm.xml</value>
+				<value>classpath*:/com/ecommerce/hbm/Products.hbm.xml</value>
+				<value>classpath*:/com/ecommerce/hbm/ProductImages.hbm.xml</value>
+				<value>classpath*:/com/ecommerce/hbm/Admin.hbm.xml</value>
+				<value>classpath*:/com/ecommerce/hbm/Orders.hbm.xml</value>
+				<value>classpath*:/com/ecommerce/hbm/OrderedProducts.hbm.xml</value>
+				<value>classpath*:/com/ecommerce/hbm/Payments.hbm.xml</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.Oracle9Dialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+			</props>
+		</property>
+	</bean>
+<!--=========================Hibernate Integration End==================== -->
+
+	<bean name="menuService" class="com.ecommerce.service.MenuService">
+		<property name="categoriesService" ref="categoriesService"/>
+	</bean>
+
+<!--=========================Countries Section Starts==================== -->
+	<bean id="countriesDao"
+		class="com.ecommerce.dao.CountriesHibernateDao">
+		<constructor-arg ref="hibernateSessionFactory" />
+	</bean>
+
+	<bean id="countriesService"
+		class="com.ecommerce.service.CountriesService">
+		<property name="dao" ref="countriesDao"/>
+	</bean>
+<!--=========================Countries Section End==================== -->
+
+<!--=========================User Section Starts==================== -->
+	<bean id="usersDao"
+		class="com.ecommerce.dao.UsersHibernateDao">
+		<constructor-arg ref="hibernateSessionFactory" />
+	</bean>
+	<bean id="adminDao"
+		class="com.ecommerce.dao.AdminHibernateDao">
+		<constructor-arg ref="hibernateSessionFactory" />
+	</bean>
+	<bean id="usersExtensionDao"
+		class="com.ecommerce.dao.UsersExtensionDao">
+		<constructor-arg ref="hibernateSessionFactory" />
+	</bean>
+	<bean id="adminExtensionDao"
+		class="com.ecommerce.dao.AdminExtensionDao">
+		<constructor-arg ref="hibernateSessionFactory" />
+	</bean>
+	<bean id="usersService"
+		class="com.ecommerce.service.UsersService">
+		<property name="dao" ref="usersDao"/>
+		<property name="usersExtensionDao" ref="usersExtensionDao"/>
+	</bean>
+	<bean id="adminService"
+		class="com.ecommerce.service.AdminService">
+		<property name="dao" ref="adminDao"/>
+		<property name="adminExtensionDao" ref="adminExtensionDao"/>
+	</bean>
+	
+	<bean name="/user" class="com.ecommerce.controller.UserController">
+		<property name="adminService" ref="adminService"/>
+		<property name="usersService" ref="usersService"/>
+		<property name="countriesService" ref="countriesService"/>
+		<property name="menuService" ref="menuService"/>
+	</bean>
+	
+		
+	<bean name="/userAccess" class="com.ecommerce.controller.UserAccessController">
+		<property name="usersService" ref="usersService"/>
+		<property name="adminService" ref="adminService"/>
+	</bean>
+	
+	<bean name="/userAction" class="com.ecommerce.action.UserAction">
+		<property name="usersService" ref="usersService"/>
+	</bean>
+	
+	<bean name="/recoveryAction" class="com.ecommerce.action.RecoveryAction">
+		<property name="usersService" ref="usersService"/>
+	</bean>
+	<bean name="/adminAction" class="com.ecommerce.action.AdminAction">
+		<property name="adminService" ref="adminService"/>
+	</bean>
+<!--=========================User Section End==================== -->
+
+<!--=========================Category Section Starts==================== -->
+	<bean id="categoriesDao"
+		class="com.ecommerce.dao.CategoriesHibernateDao">
+		<constructor-arg ref="hibernateSessionFactory" />
+	</bean>
+
+	<bean id="categoriesExtensionDao"
+		class="com.ecommerce.dao.CategoriesExtensionDao">
+		<constructor-arg ref="hibernateSessionFactory" />
+	</bean>
+	
+	<bean id="categoriesService"
+		class="com.ecommerce.service.CategoriesService">
+		<property name="dao" ref="categoriesDao"/>
+		<property name="categoriesExtensionDao" ref="categoriesExtensionDao"/>
+	</bean>
+	
+	<bean name="/categoryAction" class="com.ecommerce.action.CategoryAction">
+		<property name="categoriesService" ref="categoriesService"/>
+	</bean>
+	
+	<bean name="/category" class="com.ecommerce.controller.CategoryController">
+		<property name="categoriesService" ref="categoriesService"/>
+		<property name="menuService" ref="menuService"/>
+	</bean>
+<!--=========================Category Section End==================== -->
+	
+
+<!--=========================Product Section Starts==================== -->
+	<bean id="productsDao"
+		class="com.ecommerce.dao.ProductsHibernateDao">
+		<constructor-arg ref="hibernateSessionFactory" />
+	</bean>
+	<bean id="productImagesDao"
+		class="com.ecommerce.dao.ProductImagesHibernateDao">
+		<constructor-arg ref="hibernateSessionFactory" />
+	</bean>
+	<bean id="productsExtensionDao"
+		class="com.ecommerce.dao.ProductsExtensionDao">
+		<constructor-arg ref="hibernateSessionFactory" />
+	</bean>
+	<bean id="productsService"
+		class="com.ecommerce.service.ProductsService">
+		<property name="dao" ref="productsDao"/>
+		<property name="productsExtensionDao" ref="productsExtensionDao"/>
+	</bean>
+	<bean id="productImagesService"
+		class="com.ecommerce.service.ProductImagesService">
+		<property name="dao" ref="productImagesDao"/>
+	</bean>
+	<bean name="/productAction" class="com.ecommerce.action.ProductAction">
+		<property name="productsService" ref="productsService"/>
+		<property name="productImagesService" ref="productImagesService"/>
+	</bean>
+	<bean name="/product" class="com.ecommerce.controller.ProductController">
+		<property name="productsService" ref="productsService"/>
+		<property name="categoriesService" ref="categoriesService"/>
+		<property name="menuService" ref="menuService"/>
+	</bean>
+<!--=========================Product Section End==================== -->	
+	<bean name="/home" class="com.ecommerce.controller.MainController">
+		<property name="categoriesService" ref="categoriesService"/>
+		<property name="productsService" ref="productsService"/>
+		<property name="menuService" ref="menuService"/>
+	</bean>
+	
+	<bean name="/dashboard" class="com.ecommerce.controller.DashboardController">
+		<property name="categoriesService" ref="categoriesService"/>
+		<property name="menuService" ref="menuService"/>
+	</bean>
+	
+	<bean name="/shoppingCart" class="com.ecommerce.controller.ShoppingCartController">
+		<property name="productsService" ref="productsService"/>
+		<property name="menuService" ref="menuService"/>
+	</bean>
+	
+	<bean name="/localization" class="com.ecommerce.action.LocalizationAction">
+	</bean>
+	
+<!--=========================Orders Section Starts==================== -->
+	<bean id="ordersDao"
+		class="com.ecommerce.dao.OrdersHibernateDao">
+		<constructor-arg ref="hibernateSessionFactory" />
+	</bean>
+
+	<bean id="ordersService"
+		class="com.ecommerce.service.OrdersService">
+		<property name="dao" ref="ordersDao"/>
+	</bean>
+	<bean id="orderedProductsDao"
+		class="com.ecommerce.dao.OrderedProductsHibernateDao">
+		<constructor-arg ref="hibernateSessionFactory" />
+	</bean>
+
+	<bean id="orderedProductsService"
+		class="com.ecommerce.service.OrderedProductsService">
+		<property name="dao" ref="orderedProductsDao"/>
+	</bean>
+	
+	<bean name="/order" class="com.ecommerce.controller.OrderController">
+		<property name="ordersService" ref="ordersService"/>
+		<property name="orderedProductsService" ref="orderedProductsService"/>
+		<property name="productsService" ref="productsService"/>
+		<property name="countriesService" ref="countriesService"/>
+		<property name="categoriesService" ref="categoriesService"/>
+		<property name="menuService" ref="menuService"/>
+	</bean>
+	
+	<bean name="/saveOrder" class="com.ecommerce.action.SaveOrderAction">
+		<property name="ordersService" ref="ordersService"/>
+		<property name="usersService" ref="usersService"/>
+		<property name="productsService" ref="productsService"/>
+		<property name="orderedProductsService" ref="orderedProductsService"/>
+		<property name="countriesService" ref="countriesService"/>
+	</bean>
+	
+<!--=========================Orders Section End==================== -->
+	
+<!--=========================Payments Section Starts==================== -->
+	<bean id="paymentsDao"
+		class="com.ecommerce.dao.PaymentsHibernateDao">
+		<constructor-arg ref="hibernateSessionFactory" />
+	</bean>
+
+	<bean id="paymentsService"
+		class="com.ecommerce.service.PaymentsService">
+		<property name="dao" ref="paymentsDao"/>
+	</bean>
+		
+	<bean name="/payment" class="com.ecommerce.controller.PaymentController">
+		<property name="categoriesService" ref="categoriesService"/>
+		<property name="ordersService" ref="ordersService"/>
+		<property name="menuService" ref="menuService"/>
+		<property name="paymentsService" ref="paymentsService"/>
+	</bean>
+		
+	<bean name="/paymentAction" class="com.ecommerce.action.PaymentAction">
+		<property name="ordersService" ref="ordersService"/>
+		<property name="paymentsService" ref="paymentsService"/>
+	</bean>
+	
+<!--=========================Payments Section End==================== -->
+	
+	<bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+</beans>

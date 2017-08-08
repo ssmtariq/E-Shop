@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.ecommerce.model"
+	default-lazy="false">
+	<class name="Orders" table="ORDERS">
+		<meta attribute="class-description">
+			This class contains the Orders detail.
+		</meta>
+		<id name="orderId" type="integer" column="id">
+          <generator class="sequence">
+            <param name="sequence">ORDERS_SEQ</param>
+          </generator>         
+      </id>
+		<many-to-one name="user" class="Users" not-null="true"
+			column="user_id" fetch="join"/>
+		<property name="taxVat" column="tax_vat" type="double" />
+		<property name="shippingCost" column="shipping_cost" type="double" />
+		<property name="status" column="status" type="integer" />
+		<property name="createdOn" column="created_on" type="timestamp" />
+		<property name="updatedOn" column="updated_on" type="timestamp" />
+	</class>
+</hibernate-mapping>

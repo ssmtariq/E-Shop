@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.ecommerce.model"
+	default-lazy="false">
+	<class name="Payments" table="PAYMENTS">
+		<meta attribute="class-description">
+			This class contains the payments detail.
+		</meta>
+		<id name="paymentId" type="integer" column="id">
+          <generator class="sequence">
+            <param name="sequence">PAYMENTS_SEQ</param>
+          </generator>         
+      	</id>
+      	<many-to-one name="order" class="Orders" not-null="true"
+			column="order_id" fetch="join"/>
+		<property name="amount" column="amount" type="double"/>
+		<property name="tranSactionId" column="transaction_id" type="string" />
+		<property name="status" column="status" type="integer" />
+		<property name="method" column="method" type="string" />
+		<property name="createdOn" column="created_on" type="timestamp" />
+		<property name="updatedOn" column="updated_on" type="timestamp" />
+	</class>
+</hibernate-mapping>

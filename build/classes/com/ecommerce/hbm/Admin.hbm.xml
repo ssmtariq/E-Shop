@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.ecommerce.model"
+	default-lazy="false">
+	<class name="Admin" table="ADMIN">
+		<meta attribute="class-description">
+			This class contains the Admin detail.
+		</meta>
+		<id name="adminId" type="integer" column="id">
+          <generator class="sequence">
+            <param name="sequence">ADMIN_SEQ</param>
+          </generator>         
+      </id>
+		<property name="name" column="name" type="string"/>
+		<property name="email" column="email" type="string"/>
+		<property name="password" column="password" type="string"/>
+		<property name="type" column="type" type="integer"/>
+		<property name="status" column="status" type="integer"/>
+		<property name="createdOn" column="created_on" type="timestamp" />
+		<property name="updatedOn" column="updated_on" type="timestamp" />
+	</class>
+</hibernate-mapping>

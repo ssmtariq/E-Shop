@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.ecommerce.model"
+	default-lazy="false">
+	<class name="ProductImages" table="PRODUCT_IMAGES">
+		<meta attribute="class-description">
+			This class contains the products detail.
+		</meta>
+		<id name="productImageId" type="integer" column="id">
+          <generator class="sequence">
+            <param name="sequence">PRODUCT_IMAGES_SEQ</param>
+          </generator>         
+      </id>
+		<many-to-one name="product" class="Products" not-null="true"
+			column="product_id" fetch="join"/>
+		<property name="caption" column="caption" type="string" />
+		<property name="imageName" column="image_name" type="string" />
+		<property name="originalName" column="original_name" type="string" />
+		<property name="createdOn" column="created_on" type="timestamp" />
+		<property name="updatedOn" column="updated_on" type="timestamp" />
+	</class>
+</hibernate-mapping>

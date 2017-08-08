@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.ecommerce.model" default-lazy="false">
+   <class name="Users" table="USERS">
+      <id name="userId" type="integer" column="id">
+          <generator class="sequence">
+            <param name="sequence">USERS_SEQ</param>
+          </generator>         
+      </id>
+      <property name="firstName" column="first_name" type="string"/>
+      <property name="lastName" column="last_name" type="string"/>
+      <property name="email" column="email" type="string"/>
+      <property name="password" column="password" type="string"/>
+      <property name="mobileNo" column="mobile_no" type="string"/>
+      <property name="status" column="status" type="integer"/>
+      <property name="billingAddress" column="billing_address" type="string"/>
+      <property name="billingCity" column="billing_city" type="string"/>
+      <many-to-one name="billingCountry" class="Countries"
+			column="billing_country" fetch="join"/>
+      <property name="billingZipcode" column="billing_zipcode" type="string"/>
+      <property name="shippingAddress" column="shipping_address" type="string"/>
+      <property name="shippingCity" column="shipping_city" type="string"/>
+      <many-to-one name="shippingCountry" class="Countries"
+			column="shipping_country" fetch="join"/>
+      <property name="shippingZipcode" column="shipping_zipcode" type="string"/>
+      <property name="createdOn" column="created_on" type="timestamp"/>
+      <property name="updatedOn" column="updated_on" type="timestamp"/>
+
+   </class>
+</hibernate-mapping>

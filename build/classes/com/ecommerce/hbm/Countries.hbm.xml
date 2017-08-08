@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.ecommerce.model" default-lazy="false">
+   <class name="Countries" table="COUNTRIES">
+      <meta attribute="class-description">
+         This class contains the countries detail. 
+      </meta>
+      <id name="countryId" type="integer" column="id">
+      	<generator class="native"/>
+      </id>
+      <property name="code" column="code" type="string"/>
+      <property name="countryName" column="name" type="string"/>
+      <property name="createdOn" column="created_on" type="timestamp" />
+
+   </class>
+</hibernate-mapping>

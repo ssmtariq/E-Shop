@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
+          "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+          
+<struts-config>
+	<form-beans>
+		<form-bean name="userForm" type="com.ecommerce.form.UsersForm" />
+		<form-bean name="categoryForm" type="com.ecommerce.form.CategoriesForm" />
+		<form-bean name="productForm" type="com.ecommerce.form.ProductsForm" />
+		<form-bean name="loginForm" type="com.ecommerce.form.LoginForm" />
+		<form-bean name="recoveryForm" type="com.ecommerce.form.RecoveryForm" />
+		<form-bean name="orderForm" type="com.ecommerce.form.OrdersForm" />
+		<form-bean name="adminForm" type="com.ecommerce.form.AdminForm" />
+		<form-bean name="paymentForm" type="com.ecommerce.form.PaymentsForm" />
+	</form-beans>
+
+	<action-mappings>
+		<action path="/home"
+			type="org.springframework.web.struts.DelegatingActionProxy">
+			<forward name="success" path="/resource/views/index.jsp" />
+		</action>
+		<action path="/user" parameter="method" scope="request"
+			type="org.springframework.web.struts.DelegatingActionProxy" validate="false">
+			<forward name="signIn" path="/resource/views/applicationUser/signIn.jsp" />
+			<forward name="signUp" path="/resource/views/applicationUser/signUp.jsp" />
+			<forward name="confirmationSuccess" path="/resource/views/applicationUser/confirmRegistration.jsp" />
+			<forward name="confirmationFailure" path="/resource/views/applicationUser/confirmationFailure.jsp" />
+   		    <forward name="accessRecovery" path="/resource/views/applicationUser/accessRecovery.jsp" />
+			<forward name="signOut" path="/resource/views/applicationUser/signOut.jsp"/>
+			<forward name="createAdmin" path="/resource/views/applicationUser/createAdmin.jsp"/>
+			<forward name="adminList" path="/resource/views/applicationUser/adminList.jsp"/>
+			<forward name="deleteAdminSuccess" path="/resource/views/applicationUser/deleteAdminSuccess.jsp"/>
+		</action>
+		<action path="/userAction" 
+		  parameter="method" 
+	      name="userForm" 
+	      input="/resource/views/applicationUser/signUp.jsp"
+	      scope="request" 
+	      type="org.springframework.web.struts.DelegatingActionProxy">
+	      <forward name="failed" path="/resource/views/applicationUser/registrationFailed.jsp" />
+	      <forward name="success" path="/resource/views/applicationUser/registrationSuccess.jsp"/>
+	    </action>
+		<action path="/adminAction" 
+		  parameter="method" 
+	      name="adminForm" 
+	      input="/resource/views/applicationUser/createAdmin.jsp"
+	      scope="request" 
+	      type="org.springframework.web.struts.DelegatingActionProxy">
+	      <forward name="failed" path="/resource/views/applicationUser/createAdminFailed.jsp" />
+	      <forward name="success" path="/resource/views/applicationUser/createAdminSuccess.jsp"/>
+	    </action>
+		<action path="/recoveryAction" 
+		  parameter="method" 
+	      name="recoveryForm" 
+	      input="/resource/views/applicationUser/accessRecovery.jsp"
+	      scope="request" 
+	      type="org.springframework.web.struts.DelegatingActionProxy">
+	      <forward name="failure" path="/resource/views/applicationUser/recoveryFailure.jsp" />
+	      <forward name="success" path="/resource/views/applicationUser/recoverySuccess.jsp"/>
+	    </action>
+		<action path="/userAccess" parameter="method" name="loginForm" scope="request"
+			input="/resource/views/applicationUser/signIn.jsp"
+			type="org.springframework.web.struts.DelegatingActionProxy" validate="true">
+			<forward name="success" path="/resource/views/applicationUser/loginSuccess.jsp"/>
+			<forward name="failure" path="/resource/views/applicationUser/loginFailure.jsp"/>
+			<forward name="checkStatusPlaceOrder" path="/resource/views/order/checkStatusPlaceOrder.jsp"/>
+		</action>
+		
+		<action path="/shoppingCart"  parameter="method"
+			type="org.springframework.web.struts.DelegatingActionProxy" validate="false">
+			<forward name="success" path="/resource/views/shoppingCart.jsp" />
+		</action>
+		<action path="/localization"
+			type="org.springframework.web.struts.DelegatingActionProxy"
+			parameter="method" validate="false">
+			<forward name="success" path="/resource/views/switchLocale.jsp" />
+		</action>
+		<action path="/category" parameter="method" scope="request"
+			type="org.springframework.web.struts.DelegatingActionProxy">
+			<forward name="success" path="/resource/views/category/create.jsp" />
+			<forward name="categoryList" path="/resource/views/category/list.jsp" />
+			<forward name="editCategories" path="/resource/views/category/create.jsp"/>
+		  	<forward name="deleteSuccess" path="/resource/views/category/deleteSuccess.jsp"/>
+		</action>
+		 
+	    <action path="/categoryAction" 
+	      parameter="method"
+	      name="categoryForm" 
+	      input="/resource/views/category/create.jsp"
+	      scope="request" 
+	      type="org.springframework.web.struts.DelegatingActionProxy">
+	      <forward name="failed" path="/resource/views/category/saveFailure.jsp"/>
+	      <forward name="success" path="/resource/views/category/saveSuccess.jsp"/>
+	      <forward name="updateSuccess" path="/resource/views/category/updateSuccess.jsp"/>
+	    </action>
+	    
+		<action path="/product" parameter="method" scope="request"
+			type="org.springframework.web.struts.DelegatingActionProxy" validate="false">
+			<forward name="success" path="/resource/views/product/create.jsp"/>
+			<!-- <forward name="saveSuccess" path="/resource/views/product/saveSuccess.jsp"/>
+			<forward name="saveFailed" path="/resource/views/product/create.jsp"/> -->
+			<forward name="productList" path="/resource/views/product/list.jsp"/>
+			<forward name="editProducts" path="/resource/views/product/create.jsp"/>
+			<forward name="deleteSuccess" path="/resource/views/product/deleteSuccess.jsp"/>
+			<forward name="criteriaWiseProduct" path="/resource/views/product/criteriaWiseProducts.jsp"/>
+			<forward name="categoryWiseProduct" path="/resource/views/product/categoryWiseProducts.jsp"/>
+			<forward name="showDetails" path="/resource/views/product/details.jsp"/>
+			<forward name="searchSuccess" path="/resource/views/product/search.jsp"/>
+		</action>
+		 
+	    <action path="/productAction" 
+	      parameter="method"
+	      name="productForm" 
+	      input="/resource/views/product/create.jsp"
+	      scope="request" 
+	      type="org.springframework.web.struts.DelegatingActionProxy">
+	      <forward name="failed" path="/resource/views/product/create.jsp"/>
+	      <forward name="success" path="/resource/views/product/saveSuccess.jsp"/>
+  		  <forward name="updateSuccess" path="/resource/views/product/updateSuccess.jsp"/>
+	    </action>
+	    
+		<action path="/dashboard"  parameter="method"
+			type="org.springframework.web.struts.DelegatingActionProxy" validate="false">
+			<forward name="success" path="/resource/views/dashboard.jsp" />
+		</action>
+	    
+		<action path="/order"  parameter="method"
+			type="org.springframework.web.struts.DelegatingActionProxy" validate="false">
+			<forward name="success" path="/resource/views/order/create.jsp" />
+			<forward name="list" path="/resource/views/order/list.jsp" />
+			<forward name="pleaseSignIn" path="/resource/views/order/checkStatus.jsp" />
+		</action>
+		
+		<action path="/saveOrder" 
+	      name="orderForm" 
+	      input="/resource/views/order/create.jsp"
+	      scope="request" 
+	      type="org.springframework.web.struts.DelegatingActionProxy">
+	      <forward name="failed" path="/resource/views/order/orderFailed.jsp" />
+	      <forward name="success" path="/resource/views/order/orderSuccess.jsp"/>
+	    </action>
+		
+		<action path="/payment"  parameter="method"
+			type="org.springframework.web.struts.DelegatingActionProxy" validate="false">
+			<forward name="success" path="/resource/views/payment/create.jsp" />
+			<forward name="paymentList" path="/resource/views/payment/list.jsp" />
+		</action>
+		
+		<action path="/paymentAction" 
+		  parameter="method"
+	      name="paymentForm" 
+	      input="/resource/views/payment/create.jsp"
+	      scope="request" 
+	      type="org.springframework.web.struts.DelegatingActionProxy">
+	      <forward name="failed" path="/resource/views/payment/paymentFailed.jsp" />
+	      <forward name="success" path="/resource/views/payment/paymentSuccess.jsp"/>
+	    </action>
+	</action-mappings>
+
+	<message-resources parameter="ApplicationResources" />
+
+	<plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+		<set-property value="/WEB-INF/validator-rules.xml,/WEB-INF/validation.xml"
+			property="pathnames" />
+	</plug-in>
+
+	<plug-in className="org.springframework.web.struts.ContextLoaderPlugIn">
+		<set-property property="contextConfigLocation" value="/WEB-INF/applicationContext.xml" />
+	</plug-in>
+	
+</struts-config>
+
+

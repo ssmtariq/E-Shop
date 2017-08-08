@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.ecommerce.model"
+	default-lazy="false">
+	<class name="ProductAttributes" table="PRODUCT_ATTRIBUTES">
+		<meta attribute="class-description">
+			This class contains the products detail.
+		</meta>
+		<id name="productAttributeId" type="integer" column="id">
+			<generator class="sequence">
+				<param name="sequence">PRODUCT_ATTRIBUTES_SEQ</param>
+			</generator>
+		</id>
+		<many-to-one name="product" class="Products" not-null="true"
+			column="product" fetch="join"/>
+		<many-to-one name="attribute" class="Attributes" not-null="true"
+			column="attribute" fetch="join"/>
+		<property name="createdOn" column="created_on" type="timestamp" />
+		<property name="updatedOn" column="updated_on" type="timestamp" />
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.ecommerce.model"
+	default-lazy="false">
+	<class name="Attributes" table="ATTRIBUTES">
+		<meta attribute="class-description">
+			This class contains the Attributes detail.
+		</meta>
+		<id name="attributeId" type="integer" column="id">
+          <generator class="sequence">
+            <param name="sequence">ATTRIBUTES_SEQ</param>
+          </generator>         
+      </id>
+		<property name="type" column="type" type="string" />
+		<property name="attributesName" column="attributes_name" type="string" />
+		<property name="createdOn" column="created_on" type="timestamp" />
+		<property name="updatedOn" column="updated_on" type="timestamp" />
+	</class>
+</hibernate-mapping>
